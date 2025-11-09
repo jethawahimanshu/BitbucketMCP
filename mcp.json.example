@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "bitbucket": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/path/to/bitbucket-mcp-server-1.0.0.jar"
+      ],
+      "env": {
+        "BITBUCKET_USERNAME": "your-username",
+        "BITBUCKET_APP_PASSWORD": "your-app-password",
+        "BITBUCKET_WORKSPACE": "your-workspace"
+      }
+    }
+  }
+}

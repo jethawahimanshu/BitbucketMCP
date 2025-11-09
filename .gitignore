@@ -1,0 +1,33 @@
+# Compiled class files
+*.class
+target/
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Logs
+*.log
+logs/
+
+# Configuration files with secrets
+.bitbucket-mcp.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test files
+test-output/

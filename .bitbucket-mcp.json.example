@@ -1,0 +1,6 @@
+{
+  "username": "your-bitbucket-username",
+  "appPassword": "your-app-password-here",
+  "workspace": "your-default-workspace",
+  "baseUrl": "https://api.bitbucket.org/2.0"
+}
