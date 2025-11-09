@@ -18,24 +18,38 @@ public class BitbucketMCPServer {
 
             // Validate configuration
             if (!config.isValid()) {
-                logger.error("Invalid configuration. Please set BITBUCKET_USERNAME and BITBUCKET_APP_PASSWORD " +
-                            "environment variables or create ~/.bitbucket-mcp.json configuration file.");
+                logger.error("Invalid configuration. Please provide authentication credentials.");
                 System.err.println("Error: Missing Bitbucket credentials.");
-                System.err.println("Please set environment variables:");
-                System.err.println("  BITBUCKET_USERNAME=your-username");
-                System.err.println("  BITBUCKET_APP_PASSWORD=your-app-password");
-                System.err.println("  BITBUCKET_WORKSPACE=your-workspace (optional)");
                 System.err.println();
-                System.err.println("Or create ~/.bitbucket-mcp.json with:");
-                System.err.println("{");
-                System.err.println("  \"username\": \"your-username\",");
-                System.err.println("  \"appPassword\": \"your-app-password\",");
-                System.err.println("  \"workspace\": \"your-workspace\"");
-                System.err.println("}");
+                System.err.println("Option 1: Use Access Token (Recommended)");
+                System.err.println("  Set environment variable:");
+                System.err.println("    BITBUCKET_ACCESS_TOKEN=your-access-token");
+                System.err.println("    BITBUCKET_WORKSPACE=your-workspace (optional)");
+                System.err.println();
+                System.err.println("Option 2: Use Username + App Password");
+                System.err.println("  Set environment variables:");
+                System.err.println("    BITBUCKET_USERNAME=your-username");
+                System.err.println("    BITBUCKET_APP_PASSWORD=your-app-password");
+                System.err.println("    BITBUCKET_WORKSPACE=your-workspace (optional)");
+                System.err.println();
+                System.err.println("Option 3: Configuration File");
+                System.err.println("  Create ~/.bitbucket-mcp.json with:");
+                System.err.println("  {");
+                System.err.println("    \"accessToken\": \"your-access-token\",");
+                System.err.println("    \"workspace\": \"your-workspace\"");
+                System.err.println("  }");
+                System.err.println();
+                System.err.println("  OR");
+                System.err.println("  {");
+                System.err.println("    \"username\": \"your-username\",");
+                System.err.println("    \"appPassword\": \"your-app-password\",");
+                System.err.println("    \"workspace\": \"your-workspace\"");
+                System.err.println("  }");
                 System.exit(1);
             }
 
             logger.info("Configuration loaded successfully");
+            logger.info("Authentication method: {}", config.getAuthType());
             if (config.getWorkspace() != null) {
                 logger.info("Default workspace: {}", config.getWorkspace());
             }

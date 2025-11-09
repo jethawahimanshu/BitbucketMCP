@@ -21,6 +21,7 @@ public class BitbucketConfig {
     private String workspace;
     private String username;
     private String appPassword;
+    private String accessToken;
     private String baseUrl = "https://api.bitbucket.org/2.0";
 
     public BitbucketConfig() {
@@ -30,6 +31,11 @@ public class BitbucketConfig {
         this.workspace = workspace;
         this.username = username;
         this.appPassword = appPassword;
+    }
+
+    public BitbucketConfig(String workspace, String accessToken) {
+        this.workspace = workspace;
+        this.accessToken = accessToken;
     }
 
     public String getWorkspace() {
@@ -56,12 +62,35 @@ public class BitbucketConfig {
         this.appPassword = appPassword;
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
     public String getBaseUrl() {
         return baseUrl;
     }
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    /**
+     * Check if using access token authentication
+     */
+    public boolean hasAccessToken() {
+        return accessToken != null && !accessToken.isEmpty();
+    }
+
+    /**
+     * Check if using username/password authentication
+     */
+    public boolean hasUsernamePassword() {
+        return username != null && !username.isEmpty() &&
+               appPassword != null && !appPassword.isEmpty();
     }
 
     /**
@@ -74,15 +103,17 @@ public class BitbucketConfig {
         String workspace = System.getenv("BITBUCKET_WORKSPACE");
         String username = System.getenv("BITBUCKET_USERNAME");
         String appPassword = System.getenv("BITBUCKET_APP_PASSWORD");
+        String accessToken = System.getenv("BITBUCKET_ACCESS_TOKEN");
         String baseUrl = System.getenv("BITBUCKET_BASE_URL");
 
         if (workspace != null) config.setWorkspace(workspace);
         if (username != null) config.setUsername(username);
         if (appPassword != null) config.setAppPassword(appPassword);
+        if (accessToken != null) config.setAccessToken(accessToken);
         if (baseUrl != null) config.setBaseUrl(baseUrl);
 
-        // Try config file if env vars not set
-        if (config.getUsername() == null || config.getAppPassword() == null) {
+        // Try config file if no valid auth method found
+        if (!config.hasAccessToken() && !config.hasUsernamePassword()) {
             config = loadFromFile(config);
         }
 
@@ -102,6 +133,9 @@ public class BitbucketConfig {
 
                 if (config.getWorkspace() == null && json.has("workspace")) {
                     config.setWorkspace(json.get("workspace").getAsString());
+                }
+                if (config.getAccessToken() == null && json.has("accessToken")) {
+                    config.setAccessToken(json.get("accessToken").getAsString());
                 }
                 if (config.getUsername() == null && json.has("username")) {
                     config.setUsername(json.get("username").getAsString());
@@ -123,7 +157,18 @@ public class BitbucketConfig {
     }
 
     public boolean isValid() {
-        return username != null && !username.isEmpty() &&
-               appPassword != null && !appPassword.isEmpty();
+        return hasAccessToken() || hasUsernamePassword();
+    }
+
+    /**
+     * Get authentication type for logging purposes
+     */
+    public String getAuthType() {
+        if (hasAccessToken()) {
+            return "Access Token";
+        } else if (hasUsernamePassword()) {
+            return "Username/App Password";
+        }
+        return "None";
     }
 }

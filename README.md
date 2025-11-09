@@ -82,7 +82,9 @@ This MCP server provides **exhaustive coverage** of Bitbucket Cloud operations:
 
 - **Java 17 or higher**
 - **Bitbucket Cloud account**
-- **Bitbucket App Password** (for authentication)
+- **Authentication credentials** (choose one):
+  - **Access Token** (OAuth 2.0 - Recommended) OR
+  - **Username + App Password** (Basic Auth)
 - **Maven** (for building from source)
 
 ## Installation
@@ -99,18 +101,50 @@ This creates an executable JAR: `target/bitbucket-mcp-server-1.0.0.jar`
 
 ### 2. Configure Bitbucket Credentials
 
-#### Option A: Environment Variables
+You can authenticate using either **Access Token** (recommended) or **Username + App Password**.
 
+#### Option A: Access Token (Recommended)
+
+**Using Environment Variables:**
+```bash
+export BITBUCKET_ACCESS_TOKEN="your-access-token"
+export BITBUCKET_WORKSPACE="your-default-workspace"  # Optional
+```
+
+**Using Configuration File:**
+
+Create `~/.bitbucket-mcp.json`:
+```json
+{
+  "accessToken": "your-access-token",
+  "workspace": "your-default-workspace"
+}
+```
+
+**How to create an Access Token:**
+1. Go to **Bitbucket Settings** → **Personal settings** → **Access tokens**
+2. Click **Create token**
+3. Give it a name and select permissions:
+   - **Repositories**: Read, Write, Admin
+   - **Pull requests**: Read, Write
+   - **Pipelines**: Read, Write
+   - **Issues**: Read, Write
+   - **Webhooks**: Read, Write
+   - **Account**: Read
+4. Copy the generated token immediately (it won't be shown again)
+
+#### Option B: Username + App Password
+
+**Using Environment Variables:**
 ```bash
 export BITBUCKET_USERNAME="your-username"
 export BITBUCKET_APP_PASSWORD="your-app-password"
 export BITBUCKET_WORKSPACE="your-default-workspace"  # Optional
 ```
 
-#### Option B: Configuration File
+**Using Configuration File:**
 
 Create `~/.bitbucket-mcp.json`:
-
 ```json
 {
   "username": "your-bitbucket-username",
@@ -119,10 +153,9 @@ Create `~/.bitbucket-mcp.json`:
 }
 ```
 
-### 3. Create Bitbucket App Password
-
-1. Go to Bitbucket Settings → App passwords
-2. Click "Create app password"
+**How to create an App Password:**
+1. Go to **Bitbucket Settings** → **Personal settings** → **App passwords**
+2. Click **Create app password**
 3. Select required permissions:
    - **Repositories**: Read, Write, Admin
    - **Pull requests**: Read, Write
@@ -142,6 +175,26 @@ Create `~/.bitbucket-mcp.json`:
 #### For IntelliJ on macOS/Linux:
 Create/edit `.vscode/mcp.json` in your home directory or project:
 
+**Using Access Token (Recommended):**
+```json
+{
+  "mcpServers": {
+    "bitbucket": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/absolute/path/to/bitbucket-mcp-server-1.0.0.jar"
+      ],
+      "env": {
+        "BITBUCKET_ACCESS_TOKEN": "your-access-token",
+        "BITBUCKET_WORKSPACE": "your-workspace"
+      }
+    }
+  }
+}
+```
+
+**Using Username + App Password:**
 ```json
 {
   "mcpServers": {
@@ -162,6 +215,27 @@ Create/edit `.vscode/mcp.json` in your home directory or project:
 ```
 
 #### For IntelliJ on Windows:
+
+**Using Access Token (Recommended):**
+```json
+{
+  "mcpServers": {
+    "bitbucket": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "C:\\path\\to\\bitbucket-mcp-server-1.0.0.jar"
+      ],
+      "env": {
+        "BITBUCKET_ACCESS_TOKEN": "your-access-token",
+        "BITBUCKET_WORKSPACE": "your-workspace"
+      }
+    }
+  }
+}
+```
+
+**Using Username + App Password:**
 ```json
 {
   "mcpServers": {
@@ -267,21 +341,35 @@ The server exposes **50+ MCP tools** covering all major Bitbucket operations:
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `BITBUCKET_USERNAME` | Yes | Your Bitbucket username |
-| `BITBUCKET_APP_PASSWORD` | Yes | Bitbucket app password |
+| `BITBUCKET_ACCESS_TOKEN` | Yes* | Bitbucket access token (OAuth 2.0) |
+| `BITBUCKET_USERNAME` | Yes** | Your Bitbucket username |
+| `BITBUCKET_APP_PASSWORD` | Yes** | Bitbucket app password |
 | `BITBUCKET_WORKSPACE` | No | Default workspace slug |
 | `BITBUCKET_BASE_URL` | No | API base URL (default: https://api.bitbucket.org/2.0) |
+
+\* Required if not using username/app password
+\** Required if not using access token
 
 ### Configuration File Format
 
 File location: `~/.bitbucket-mcp.json`
 
+**Using Access Token (Recommended):**
 ```json
 {
-  "username": "string",
-  "appPassword": "string",
-  "workspace": "string (optional)",
-  "baseUrl": "string (optional)"
+  "accessToken": "your-access-token",
+  "workspace": "your-workspace (optional)",
+  "baseUrl": "https://api.bitbucket.org/2.0 (optional)"
+}
+```
+
+**Using Username + App Password:**
+```json
+{
+  "username": "your-username",
+  "appPassword": "your-app-password",
+  "workspace": "your-workspace (optional)",
+  "baseUrl": "https://api.bitbucket.org/2.0 (optional)"
 }
 ```
 
@@ -302,9 +390,10 @@ To change log levels, edit `src/main/resources/logback.xml`
 ### "401 Unauthorized" errors
 
 **Solution**:
-1. Verify your app password is correct
-2. Ensure the app password has required permissions
-3. Check that your username is correct
+1. Verify your access token or app password is correct and not expired
+2. Ensure the token/password has required permissions
+3. If using username/password, check that your username is correct
+4. Try regenerating your access token or app password
 
 ### Tools not appearing in GitHub Copilot
 

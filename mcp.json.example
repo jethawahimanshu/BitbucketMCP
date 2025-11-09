@@ -6,6 +6,19 @@
         "-jar",
         "/path/to/bitbucket-mcp-server-1.0.0.jar"
       ],
+      "// Option 1: Use Access Token (Recommended)": "",
+      "env": {
+        "BITBUCKET_ACCESS_TOKEN": "your-access-token",
+        "BITBUCKET_WORKSPACE": "your-workspace"
+      }
+    },
+    "bitbucket-legacy": {
+      "// Option 2: Use Username + App Password": "",
+      "command": "java",
+      "args": [
+        "-jar",
+        "/path/to/bitbucket-mcp-server-1.0.0.jar"
+      ],
       "env": {
         "BITBUCKET_USERNAME": "your-username",
         "BITBUCKET_APP_PASSWORD": "your-app-password",

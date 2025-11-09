@@ -31,9 +31,19 @@ public class BitbucketClient {
                 .build();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
 
-        // Create basic auth header
-        String credentials = config.getUsername() + ":" + config.getAppPassword();
-        this.authHeader = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
+        // Create appropriate auth header based on configuration
+        if (config.hasAccessToken()) {
+            // Use Bearer token authentication (OAuth 2.0)
+            this.authHeader = "Bearer " + config.getAccessToken();
+            logger.info("Using access token authentication");
+        } else if (config.hasUsernamePassword()) {
+            // Use Basic authentication (username + app password)
+            String credentials = config.getUsername() + ":" + config.getAppPassword();
+            this.authHeader = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
+            logger.info("Using username/app password authentication");
+        } else {
+            throw new IllegalStateException("No valid authentication credentials provided");
+        }
     }
 
     /**

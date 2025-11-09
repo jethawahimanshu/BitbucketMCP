@@ -1,6 +1,12 @@
 {
-  "username": "your-bitbucket-username",
-  "appPassword": "your-app-password-here",
+  "// Option 1: Use Access Token (Recommended)": "",
+  "accessToken": "your-access-token-here",
   "workspace": "your-default-workspace",
-  "baseUrl": "https://api.bitbucket.org/2.0"
+  "baseUrl": "https://api.bitbucket.org/2.0",
+
+  "// Option 2: Use Username + App Password": "",
+  "// username": "your-bitbucket-username",
+  "// appPassword": "your-app-password-here",
+  "// workspace": "your-default-workspace",
+  "// baseUrl": "https://api.bitbucket.org/2.0"
 }
