@@ -1,82 +1,135 @@
 # Bitbucket MCP Server
 
-A comprehensive **Model Context Protocol (MCP)** server for Bitbucket Cloud, written in Java. This server enables AI assistants like GitHub Copilot in IntelliJ IDEA to interact with Bitbucket repositories, pull requests, pipelines, and more.
+A **truly exhaustive** Model Context Protocol (MCP) server for Bitbucket Cloud, written in Java. This server enables AI assistants like GitHub Copilot in IntelliJ IDEA to interact with Bitbucket repositories, pull requests, pipelines, and more.
+
+With **140+ comprehensive tools**, this server provides complete coverage of virtually every Bitbucket Cloud API operation.
 
 ## Features
 
-This MCP server provides **exhaustive coverage** of Bitbucket Cloud operations:
+This MCP server provides **truly exhaustive coverage** of Bitbucket Cloud operations with 140+ tools:
 
-### 🗂️ Repository Operations
+### 🗂️ Repository Operations (6 tools)
 - List repositories in a workspace
 - Get repository details
 - Create new repositories
+- Update repository settings
 - Delete repositories
 - Fork repositories
 
-### 🔀 Pull Request Operations
+### 🔀 Pull Request Operations (24 tools)
 - List pull requests (filter by state)
 - Get pull request details
-- Create pull requests
-- Update pull requests (title, description)
-- Merge pull requests (with merge strategies)
-- Decline/approve pull requests
-- Manage pull request comments
-- Unapprove pull requests
+- Create, update, merge, decline pull requests
+- Approve/unapprove pull requests
+- Add/update/delete PR comments (including inline comments on specific lines)
+- Get PR diffs, diffstat, commits, activity, statuses
+- Add reviewers to pull requests
+- Create/update/delete PR tasks
+- Get PR as patch file
 
-### 📝 Commit Operations
+### 📝 Commit Operations (9 tools)
 - List commits (by branch or all)
 - Get commit details
 - List commit statuses (CI/CD results)
 - Create commit statuses
+- Get commit diffs
+- List and add commit comments (including inline)
+- Get commit as patch file
 
-### 🌿 Branch Operations
+### 🌿 Branch Operations (7 tools)
 - List all branches
 - Get branch details
 - Create new branches
 - Delete branches
+- List/create/delete branch restrictions (protection rules)
 
-### 🚀 Pipeline Operations
+### 🚀 Pipeline Operations (13 tools)
 - List all pipelines (CI/CD runs)
 - Get pipeline details
 - Run/trigger pipelines
 - Stop running pipelines
+- Get pipeline steps and step logs
+- List/create pipeline variables
+- List/create/update/delete pipeline schedules (cron-based)
 
-### 📦 Deployment Operations
+### 📦 Deployment Operations (6 tools)
 - List deployments
 - Get deployment details
+- List/create/delete deployment environments
 
-### 🔔 Webhook Operations
+### 🔔 Webhook Operations (3 tools)
 - List webhooks
-- Create webhooks
+- Create webhooks with event subscriptions
 - Delete webhooks
 
-### 👥 Workspace & Project Operations
+### 👥 Workspace & Project Operations (8 tools)
 - List workspaces
 - Get workspace details
 - List projects
-- Create projects
+- Create/update/delete projects
+- List workspace members
 
-### 📄 File/Source Operations
+### 📄 File/Source Operations (5 tools)
 - Get file content from repository
 - List directory contents
-- Browse repository structure
+- Create and update files via API
+- Get file commit history
 
-### 🐛 Issue Operations
+### 🐛 Issue Operations (13 tools)
 - List issues (filter by state/kind)
 - Get issue details
-- Create new issues
+- Create/update/delete issues
+- List and add issue comments
+- Watch/unwatch issues
+- Vote/unvote on issues
+- List issue watchers and voters
 
-### 🔍 Search Operations
-- Search repositories
+### 🔍 Search Operations (2 tools)
+- Search repositories by name/description
 - Search code within repositories
 
-### 🏷️ Tag Operations
+### 🏷️ Tag Operations (4 tools)
 - List tags
 - Create new tags
+- Get tag details
+- Delete tags
 
-### 👤 User Operations
+### 👤 User Operations (2 tools)
 - Get current authenticated user
 - Get user details by username
+
+### 👀 Watchers & Forks Operations (4 tools)
+- List repository watchers
+- List repository forks
+- Watch/unwatch repositories
+
+### 👥 Default Reviewers (3 tools)
+- List default reviewers
+- Add/remove default reviewers
+
+### 🔑 SSH & Deploy Keys (6 tools)
+- List/create/delete user SSH keys
+- List/create/delete repository deploy keys
+
+### 📥 Downloads (2 tools)
+- List repository downloads
+- Delete downloads
+
+### 📝 Snippets (5 tools)
+- List snippets
+- Get/create/update/delete snippets
+
+### 🔧 Repository Variables (4 tools)
+- List/create/update/delete repository-level pipeline variables (secure vars)
+
+### 🎯 Milestones (4 tools)
+- List/get/create/delete milestones for issues
+
+### 📦 Components (4 tools)
+- List/get/create/delete components for issue categorization
+
+### 📌 Versions (4 tools)
+- List/get/create/delete versions for issue tracking
 
 ## Requirements
 
