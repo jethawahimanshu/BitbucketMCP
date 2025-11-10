@@ -68,6 +68,21 @@ public abstract class BaseToolExecutor implements ToolExecutor {
     }
 
     /**
+     * Helper to add an integer property to schema
+     */
+    protected void addIntegerProperty(JsonObject schema, String name, String description, boolean required) {
+        JsonObject properties = schema.getAsJsonObject("properties");
+        JsonObject property = new JsonObject();
+        property.addProperty("type", "integer");
+        property.addProperty("description", description);
+        properties.add(name, property);
+
+        if (required) {
+            schema.getAsJsonArray("required").add(name);
+        }
+    }
+
+    /**
      * Helper to add a boolean property to schema
      */
     protected void addBooleanProperty(JsonObject schema, String name, String description, boolean required) {
@@ -100,6 +115,16 @@ public abstract class BaseToolExecutor implements ToolExecutor {
             return defaultValue;
         }
         return args.get(name).getAsString();
+    }
+
+    /**
+     * Helper to get a required integer parameter
+     */
+    protected int getRequiredInt(JsonObject args, String name) {
+        if (!args.has(name)) {
+            throw new IllegalArgumentException("Missing required parameter: " + name);
+        }
+        return args.get(name).getAsInt();
     }
 
     /**
