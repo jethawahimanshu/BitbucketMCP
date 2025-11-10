@@ -6,6 +6,7 @@ import com.bitbucket.mcp.protocol.*;
 import com.bitbucket.mcp.tools.ToolRegistry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,7 @@ public class MCPServer {
                     handleMessage(line);
                 } catch (Exception e) {
                     logger.error("Error handling message", e);
-                    sendError(null, JsonRpcError.INTERNAL_ERROR, "Internal error: " + e.getMessage());
+                    sendError(JsonNull.INSTANCE, JsonRpcError.INTERNAL_ERROR, "Internal error: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
@@ -74,7 +75,7 @@ public class MCPServer {
             request = gson.fromJson(message, JsonRpcRequest.class);
         } catch (Exception e) {
             logger.error("Failed to parse message", e);
-            sendError(null, JsonRpcError.PARSE_ERROR, "Parse error");
+            sendError(JsonNull.INSTANCE, JsonRpcError.PARSE_ERROR, "Parse error");
             return;
         }
 
@@ -234,7 +235,7 @@ public class MCPServer {
     /**
      * Send successful response
      */
-    private void sendResponse(Object id, JsonObject result) {
+    private void sendResponse(JsonElement id, JsonObject result) {
         JsonRpcResponse response = new JsonRpcResponse(id, result);
         String json = gson.toJson(response);
         System.out.println(json);
@@ -245,7 +246,7 @@ public class MCPServer {
     /**
      * Send error response
      */
-    private void sendError(Object id, int code, String message) {
+    private void sendError(JsonElement id, int code, String message) {
         JsonRpcError error = new JsonRpcError(code, message);
         JsonRpcResponse response = new JsonRpcResponse(id, error);
         String json = gson.toJson(response);

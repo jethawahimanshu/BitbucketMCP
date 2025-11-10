@@ -8,12 +8,12 @@ import com.google.gson.JsonElement;
 public class JsonRpcRequest extends JsonRpcMessage {
     private String method;
     private JsonElement params;
-    private Object id;
+    private JsonElement id;  // Changed from Object to JsonElement to preserve type
 
     public JsonRpcRequest() {
     }
 
-    public JsonRpcRequest(String method, JsonElement params, Object id) {
+    public JsonRpcRequest(String method, JsonElement params, JsonElement id) {
         this.method = method;
         this.params = params;
         this.id = id;
@@ -35,11 +35,11 @@ public class JsonRpcRequest extends JsonRpcMessage {
         this.params = params;
     }
 
-    public Object getId() {
+    public JsonElement getId() {
         return id;
     }
 
-    public void setId(Object id) {
+    public void setId(JsonElement id) {
         this.id = id;
     }
 }
