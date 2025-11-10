@@ -32,6 +32,7 @@ public class MCPServer {
     public MCPServer(BitbucketConfig config) {
         // Use compact JSON for MCP protocol (no pretty printing)
         // MCP expects single-line JSON-RPC messages for STDIO transport
+        // By default, Gson excludes null fields from serialization
         this.gson = new GsonBuilder().create();
         this.bitbucketClient = new BitbucketClient(config);
         this.toolRegistry = new ToolRegistry(bitbucketClient);
@@ -236,7 +237,12 @@ public class MCPServer {
      * Send successful response
      */
     private void sendResponse(JsonElement id, JsonObject result) {
-        JsonRpcResponse response = new JsonRpcResponse(id, result);
+        // Manually construct JSON response to ensure correct format
+        JsonObject response = new JsonObject();
+        response.addProperty("jsonrpc", "2.0");
+        response.add("id", id);
+        response.add("result", result);
+
         String json = gson.toJson(response);
         System.out.println(json);
         System.out.flush();
@@ -247,8 +253,16 @@ public class MCPServer {
      * Send error response
      */
     private void sendError(JsonElement id, int code, String message) {
-        JsonRpcError error = new JsonRpcError(code, message);
-        JsonRpcResponse response = new JsonRpcResponse(id, error);
+        // Manually construct JSON error response to ensure correct format
+        JsonObject errorObj = new JsonObject();
+        errorObj.addProperty("code", code);
+        errorObj.addProperty("message", message);
+
+        JsonObject response = new JsonObject();
+        response.addProperty("jsonrpc", "2.0");
+        response.add("id", id);
+        response.add("error", errorObj);
+
         String json = gson.toJson(response);
         System.out.println(json);
         System.out.flush();
