@@ -29,7 +29,9 @@ public class MCPServer {
     private boolean initialized = false;
 
     public MCPServer(BitbucketConfig config) {
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        // Use compact JSON for MCP protocol (no pretty printing)
+        // MCP expects single-line JSON-RPC messages for STDIO transport
+        this.gson = new GsonBuilder().create();
         this.bitbucketClient = new BitbucketClient(config);
         this.toolRegistry = new ToolRegistry(bitbucketClient);
     }
