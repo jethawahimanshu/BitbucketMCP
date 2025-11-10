@@ -122,9 +122,25 @@ public class MCPServer {
     private void handleInitialize(JsonRpcRequest request) {
         ServerInfo serverInfo = new ServerInfo(SERVER_NAME, SERVER_VERSION);
 
+        // Create capabilities object
+        JsonObject capabilities = new JsonObject();
+
+        // Declare that we support tools
+        JsonObject tools = new JsonObject();
+        capabilities.add("tools", tools);
+
+        // We don't support resources or prompts yet
+        // but include empty objects for compatibility
+        JsonObject resources = new JsonObject();
+        capabilities.add("resources", resources);
+
+        JsonObject prompts = new JsonObject();
+        capabilities.add("prompts", prompts);
+
         JsonObject result = new JsonObject();
         result.addProperty("protocolVersion", "2024-11-05");
         result.add("serverInfo", gson.toJsonTree(serverInfo));
+        result.add("capabilities", capabilities);
 
         sendResponse(request.getId(), result);
     }
