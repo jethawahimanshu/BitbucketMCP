@@ -162,7 +162,12 @@ You can authenticate using either **Access Token** (recommended) or **Username +
 ```bash
 export BITBUCKET_ACCESS_TOKEN="your-access-token"
 export BITBUCKET_WORKSPACE="your-default-workspace"  # Optional
+export BITBUCKET_BASE_URL="https://api.bitbucket.org/2.0"  # Optional, defaults to Bitbucket Cloud
 ```
+
+**Note:** The `BITBUCKET_BASE_URL` defaults to `https://api.bitbucket.org/2.0` (Bitbucket Cloud). Only set this if you're using:
+- **Bitbucket Server** (self-hosted): `https://your-server.com/rest/api/1.0`
+- **Bitbucket Data Center**: `https://your-datacenter.com/rest/api/1.0`
 
 **Using Configuration File:**
 
@@ -170,9 +175,12 @@ Create `~/.bitbucket-mcp.json`:
 ```json
 {
   "accessToken": "your-access-token",
-  "workspace": "your-default-workspace"
+  "workspace": "your-default-workspace",
+  "baseUrl": "https://api.bitbucket.org/2.0"
 }
 ```
+
+**Note:** The `baseUrl` field is optional and defaults to Bitbucket Cloud. Only include it if using Bitbucket Server/Data Center.
 
 **How to create an Access Token:**
 1. Go to **Bitbucket Settings** → **Personal settings** → **Access tokens**
@@ -193,6 +201,7 @@ Create `~/.bitbucket-mcp.json`:
 export BITBUCKET_USERNAME="your-username"
 export BITBUCKET_APP_PASSWORD="your-app-password"
 export BITBUCKET_WORKSPACE="your-default-workspace"  # Optional
+export BITBUCKET_BASE_URL="https://api.bitbucket.org/2.0"  # Optional, defaults to Bitbucket Cloud
 ```
 
 **Using Configuration File:**
@@ -202,9 +211,12 @@ Create `~/.bitbucket-mcp.json`:
 {
   "username": "your-bitbucket-username",
   "appPassword": "your-app-password",
-  "workspace": "your-default-workspace"
+  "workspace": "your-default-workspace",
+  "baseUrl": "https://api.bitbucket.org/2.0"
 }
 ```
+
+**Note:** The `baseUrl` field is optional and defaults to Bitbucket Cloud. Only include it if using Bitbucket Server/Data Center.
 
 **How to create an App Password:**
 1. Go to **Bitbucket Settings** → **Personal settings** → **App passwords**
